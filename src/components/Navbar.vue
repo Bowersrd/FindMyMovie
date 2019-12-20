@@ -1,7 +1,6 @@
 <template>
   <nav>
-    <v-app-bar app dark flat class="px-4 py-3" color="transparent">
-      <v-toolbar-title class="text-md-right d-none d-md-flex">Find My Movie</v-toolbar-title>
+    <v-app-bar app dark flat class="px-4 py-3" color="transparent"> 
       <v-spacer class="d-none d-md-flex"></v-spacer>
       <v-btn tile exact :to="link.route" text class="d-none d-md-flex" v-for="link in links" :key="link.name">{{ link.name }}</v-btn>
       <v-spacer class="d-md-none"></v-spacer>

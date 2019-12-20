@@ -1,7 +1,7 @@
 <template>
   <v-app>
-      <Navbar />
       <v-content class="d-flex align-center" id="header" tag="header">
+        <Navbar />
         <v-container fluid>
           <router-view/>
         </v-container>
@@ -13,11 +13,6 @@
 import Navbar from './components/Navbar'
 
 export default {
-  data: () => {
-    return {
-
-    }
-  },
   components: {
     Navbar
   }

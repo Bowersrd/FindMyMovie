@@ -12,12 +12,15 @@
       rounded
       dark
       @keyup.enter="searchMovie"
+      @click:append="searchMovie"
     ></v-text-field>
     <v-row class="slide-up">
-      <v-col v-for="movie in movieList" :key="movie.title" cols="6" sm="4" md="3" lg="2">
-        <v-img height="100%" class="movie-poster" :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" @click="goToMovie(movie)"></v-img>
+      <v-col v-for="movie in movieList" :key="movie.id" cols="6" sm="4" md="3" lg="2">
+        <v-img height="100%" class="movie-poster" :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" @click="goToMovie(movie)" v-if="movie.poster_path != undefined"></v-img>
+        <v-img height="100%" class="movie-poster" src="../assets/images/genericmovie.png" @click="goToMovie(movie)" v-else></v-img>
       </v-col>
     </v-row>
+    <v-pagination class="white--text mt-5 mb-12" color="red" :length="movies.total_pages" v-model="page" :total-visible="7" @input="newPage" v-show="movies.length !== 0"></v-pagination>
   </v-container>
 </template>
 
@@ -28,7 +31,8 @@ export default {
   data: function(){
     return{
       movies: [],
-      text: ''
+      text: '',
+      page: 1
     }
   },
   methods: {
@@ -39,6 +43,11 @@ export default {
     },
     goToMovie: function(movie){
       router.push({ name: 'movie-page', params: { id: movie.id } })
+    },
+    newPage: function(){
+      this.axios.get(`https://api.themoviedb.org/3/search/movie?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&query=${this.text}&page=${this.page}&include_adult=false`).then((response) => {
+      this.movies = response.data
+      })
     }
   },
   computed:{

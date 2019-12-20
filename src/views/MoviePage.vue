@@ -1,7 +1,8 @@
 <template>
     <v-container class="d-flex justify-center section my-8">
         <div class="movie-container d-flex flex-column flex-md-row">
-            <v-img width="375px" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" raised></v-img>
+            <v-img class="image" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" raised v-if="movie.poster_path != undefined"></v-img>
+            <v-img height="100%" class="movie-poster" src="../assets/images/genericmovie.png" @click="goToMovie(movie)" v-else></v-img>
             <div class="movie-details mt-5">
                 <h1 class="display-2 white--text text-uppercase font-weight-medium"> {{ movie.title }} </h1>
                 <div class="d-flex flex-wrap mt-3">
@@ -70,11 +71,14 @@ export default {
 
 <style lang="scss" scoped>
 .movie-container{
-    width: 100%;
+    width: 80%;
+    .image {
+        width: 100%;
+        max-width: 400px;
+    }
     @media screen and (max-width: 959px){
-        width: 80%;
         align-items: center;
-        margin-bottom: 50px;
+        padding: 50px 0;
     }
 }
 
