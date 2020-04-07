@@ -32,12 +32,13 @@ export default {
     return{
       movies: [],
       text: '',
-      page: 1
+      page: 1,
+      apiKey: process.env.VUE_APP_API_KEY
     }
   },
   methods: {
     searchMovie: function(){
-      this.axios.get(`https://api.themoviedb.org/3/search/movie?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&query=${this.text}&page=1&include_adult=false`).then((response) => {
+      this.axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.text}&page=1&include_adult=false`).then((response) => {
       this.movies = response.data
       })
     },
@@ -45,7 +46,7 @@ export default {
       router.push({ name: 'movie-page', params: { id: movie.id } })
     },
     newPage: function(){
-      this.axios.get(`https://api.themoviedb.org/3/search/movie?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&query=${this.text}&page=${this.page}&include_adult=false`).then((response) => {
+      this.axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.text}&page=${this.page}&include_adult=false`).then((response) => {
       this.movies = response.data
       })
     }

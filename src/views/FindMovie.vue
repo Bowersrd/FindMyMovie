@@ -26,7 +26,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="error darken-1" text @click="extras = false; year = null">Cancel</v-btn>
-                            <v-btn color="success darken-1" outlined text @click="extras = false">Close</v-btn>
+                            <v-btn color="success darken-1" outlined text @click="extras = false">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -75,7 +75,8 @@ export default {
             options: {
                 duration: 1000,
                 easing: 'easeInOutCubic'
-            }
+            },
+            apiKey: process.env.VUE_APP_API_KEY
         }
     },
     methods: {
@@ -83,17 +84,18 @@ export default {
             return this.genreSelected = genre
         },
         getData: function(){
-            this.axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&region=US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&vote_average.gte=5&with_runtime.gte=60&with_genres=${this.genreSelected}&year=${this.year}`).then((response) => {
+            this.axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&language=en-US&region=US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&vote_average.gte=5&with_runtime.gte=60&with_genres=${this.genreSelected}&year=${this.year}`).then((response) => {
             let pages = response.data.total_pages 
             this.page = Math.floor((Math.random() * pages) + 1)
             this.random = Math.floor((Math.random() * 19) + 1)
             }).then(() => {
                 this.getMovie();
                 this.loading = true
+                console.log(this.title)
             })
         },
         getMovie: function(){
-            this.axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&region=US&sort_by=popularity.desc&include_adult=false&include_video=false&vote_average.gte=5&with_runtime.gte=60&page=${this.page}&with_genres=${this.genreSelected}&year=${this.year}`).then((response) => {
+            this.axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&language=en-US&region=US&sort_by=popularity.desc&include_adult=false&include_video=false&vote_average.gte=5&with_runtime.gte=60&page=${this.page}&with_genres=${this.genreSelected}&year=${this.year}`).then((response) => {
             this.movie = response.data.results
             }).then(() => {
                     setTimeout(this.sendToMovie, 1000)

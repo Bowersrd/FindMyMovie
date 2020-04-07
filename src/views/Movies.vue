@@ -20,11 +20,12 @@ export default {
   data: function(){
     return{
       movies: [],
-      page: 1
+      page: 1,
+      apiKey: process.env.VUE_APP_API_KEY
     }
   },
   mounted(){
-    this.axios.get('https://api.themoviedb.org/3/movie/popular?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&page=1').then((response) => {
+    this.axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}&language=en-US&page=1`).then((response) => {
       this.movies = response.data
     })
   },
@@ -35,7 +36,7 @@ export default {
   },
   methods:{
     newPage: function(){
-      this.axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&page=${this.page}`).then((response) => {
+      this.axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}&language=en-US&page=${this.page}`).then((response) => {
       this.movies = response.data
       })
     },

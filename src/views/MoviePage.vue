@@ -1,8 +1,7 @@
 <template>
     <v-container class="d-flex justify-center section my-8">
         <div class="movie-container d-flex flex-column flex-md-row">
-            <v-img class="image" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" raised v-if="movie.poster_path != undefined"></v-img>
-            <v-img height="100%" class="movie-poster" src="../assets/images/genericmovie.png" @click="goToMovie(movie)" v-else></v-img>
+            <v-img class="image" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" raised v-if="movie.poster_path"></v-img>
             <div class="movie-details mt-5">
                 <h1 class="display-2 white--text text-uppercase font-weight-medium"> {{ movie.title }} </h1>
                 <div class="d-flex flex-wrap mt-3">
@@ -51,11 +50,12 @@ export default {
             length: 5,
             rating: null,
             readonly: true,
-            size: 25
+            size: 25,
+            apiKey: process.env.VUE_APP_API_KEY
         }
     },
     mounted(){
-        this.axios.get(`https://api.themoviedb.org/3/movie/${this.id}?api_key=0c34e3bc09bf8b788bce9f71ac36161a&language=en-US&append_to_response=videos`).then((response) => {
+        this.axios.get(`https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.apiKey}&language=en-US&append_to_response=videos`).then((response) => {
             this.movie = response.data
             this.rating = Math.round((response.data.vote_average/2)*2)/2
             this.trailers = response.data.videos.results
