@@ -85,13 +85,13 @@ export default {
         },
         getData: function(){
             this.axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&language=en-US&region=US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&vote_average.gte=5&with_runtime.gte=60&with_genres=${this.genreSelected}&year=${this.year}`).then((response) => {
-            let pages = response.data.total_pages 
+            let pages = response.data.total_pages;
+            let max = (response.data.results.length);
             this.page = Math.floor((Math.random() * pages) + 1)
-            this.random = Math.floor((Math.random() * 19) + 1)
+            this.random = Math.floor((Math.random() * max - 1) + 1)
             }).then(() => {
                 this.getMovie();
                 this.loading = true
-                console.log(this.title)
             })
         },
         getMovie: function(){
